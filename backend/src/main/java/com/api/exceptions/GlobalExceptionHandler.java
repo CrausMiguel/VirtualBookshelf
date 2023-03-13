@@ -33,7 +33,12 @@ public class GlobalExceptionHandler {
     }
 
 
-
+    @ExceptionHandler(BookAlreadyExistException.class)
+    public ResponseEntity<ErrorObject> handleBookAlreadyExistException(BookAlreadyExistException ex, WebRequest webRequest){
+        ErrorObject errorObject = new ErrorObject();
+        setErrorObject(errorObject, HttpStatus.NOT_ACCEPTABLE, ex);
+        return new ResponseEntity<>(errorObject, HttpStatus.NOT_ACCEPTABLE);
+    }
 
     private void setErrorObject(ErrorObject errorObject, HttpStatus errorValue, Exception ex){
         errorObject.setStatusCode(errorValue.value());

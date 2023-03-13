@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface GenderService {
     Gender createGender(GenderDto genderDto);
     Gender updateGender(GenderDto genderDto, UUID id);
-    Optional<Gender> getGenderDetails(UUID id);
+    Gender getGenderDetails(UUID id);
     GenderPagination getAllGenders(int pageNum, int pageSize);
     Optional<Gender> getGenderByDescription(String description);
     void deleteGender(UUID id);

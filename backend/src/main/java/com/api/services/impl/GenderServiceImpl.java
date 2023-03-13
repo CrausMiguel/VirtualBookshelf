@@ -27,23 +27,23 @@ public class GenderServiceImpl implements GenderService {
 
     @Override
     public Gender createGender(GenderDto genderDto) {
-        checkAlreadyExist(genderDto.getDescription());
+        checkGenderAlreadyExist(genderDto.getDescription().toLowerCase());
         Gender newGender = new Gender();
-        newGender.setDescription(genderDto.getDescription());
+        newGender.setDescription(genderDto.getDescription().toLowerCase());
         return genderRepository.save(newGender);
     }
 
     @Override
     public Gender updateGender(GenderDto genderDto, UUID id) {
-        checkAlreadyExist(genderDto.getDescription(), id);
-        Gender searchedGender = getGenderDetails(id).orElseThrow(() -> new GenderNotFoundException("Not Found"));
-        searchedGender.setDescription(genderDto.getDescription());
+        checkGenderAlreadyExist(genderDto.getDescription().toLowerCase(), id);
+        Gender searchedGender = getGenderDetails(id);
+        searchedGender.setDescription(genderDto.getDescription().toLowerCase());
         return genderRepository.save(searchedGender);
     }
 
     @Override
-    public Optional<Gender> getGenderDetails(UUID id) {
-        return genderRepository.findById(id);
+    public Gender getGenderDetails(UUID id) {
+        return genderRepository.findById(id).orElseThrow(() -> new GenderNotFoundException("Gender not found"));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GenderServiceImpl implements GenderService {
         genderRepository.deleteById(id);
     }
 
-    private void checkAlreadyExist(String description, UUID id){
+    private void checkGenderAlreadyExist(String description, UUID id){
         Optional<Gender> search = getGenderByDescription(description);
         boolean checkExist = search.isPresent() && !search.get().getId().equals(id);
         if(checkExist){
@@ -81,7 +81,7 @@ public class GenderServiceImpl implements GenderService {
         }
     }
 
-    private void checkAlreadyExist(String description){
+    private void checkGenderAlreadyExist(String description){
         boolean checkExist = getGenderByDescription(description).isPresent();
         if(checkExist){
             throw new GenderAlreadyExistException("This gender already exists");

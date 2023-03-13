@@ -28,9 +28,9 @@ public class GenderController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Gender> updateGender(@RequestBody GenderDto newGender,
+    public ResponseEntity<Gender> updateGender(@RequestBody GenderDto genderUpdate,
                                                @RequestParam(value = "id") UUID id){
-        return ResponseEntity.status(HttpStatus.OK).body(genderService.updateGender(newGender, id));
+        return ResponseEntity.status(HttpStatus.OK).body(genderService.updateGender(genderUpdate, id));
     }
 
     @GetMapping("")
@@ -42,10 +42,10 @@ public class GenderController {
 
     @GetMapping("/detail")
     public ResponseEntity<Gender> getGenderDetails(@RequestParam(value = "id") UUID id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(genderService.getGenderDetails(id).orElseThrow(() -> new GenderNotFoundException("Not Found")));
+        return ResponseEntity.status(HttpStatus.FOUND).body(genderService.getGenderDetails(id));
     }
 
-    @DeleteMapping
+    @DeleteMapping("")
     public ResponseEntity<String> deleteGender(@RequestParam(value= "id") UUID id){
         genderService.deleteGender(id);
         return ResponseEntity.status(HttpStatus.OK).body("Deleted");

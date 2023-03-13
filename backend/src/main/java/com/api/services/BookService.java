@@ -13,6 +13,8 @@ import java.util.UUID;
 public interface BookService {
     Book createBook(BookDto bookDto);
     Book updateBook(BookDto bookDto, UUID id);
-    Optional<Book> getBookDetails(UUID id);
+    Book getBookDetailsById(UUID id);
+    void deleteBookById(UUID id);
+    Optional<Book> getBookDetailsByAuthorAndTitle(String author, String title);
     BookPagination getAllBooks(int pageNum, int pageSize);
 }
